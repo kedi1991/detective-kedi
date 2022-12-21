@@ -17,11 +17,12 @@ The purpose of this project is to profile a user by reading valuable information
 
 <h2>3. Features</h2>
 
-- Big black Display screen
-- keyboard controls for desktop view and Mobile controls for the mobile view
-- Display instruments (speed, time, altitude, distance, and rotation)
-- Clear dashboard with instrumentation
-project_design/image_landing.png)
+- The program browses all files in the user's computer
+-STEPS:
+- check the core folders in the PC - Desktop, Documents, Downloads
+- searc for specific file names (passport, CV, job applications,)
+- group the file names in a list (contacts/family; work-job, title; personal details - name,age,sex, location)
+
 
 <h2>4. Future features</h2>
 
