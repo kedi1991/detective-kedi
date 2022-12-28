@@ -108,6 +108,10 @@ Finally, run `git push` to push the changes to yout github repository.
 
 <h2>11. credits</h2>
 
+http://www.learnex.in/useful-english-greetings-and-responses/
+https://oneminuteenglish.org/en/greetings-in-english/
+https://www.jumpspeak.com/blog/english-swear-words
+
 **Thanks to:**
 - CI personal mentor - Harry Dhillon for professional guidance
 - The CI jul-2022-5p class and tutors
