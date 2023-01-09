@@ -2,6 +2,7 @@ import random
 
 name = ""
 prompt_user = ""
+response_greet = ""
 prompt_computer = "Kedi>>>"
 
 GREET_FILE = "greetings.txt"
@@ -19,6 +20,12 @@ def main():
     """
     start()
     greet()
+
+    #check for the tone of response
+    if check_tone():
+        print("ok")
+    else:
+        choose_topic()
      
 
 def start():
@@ -66,6 +73,7 @@ def start():
 
     global name
     global prompt_user
+
     print("Hi my name is Kedi. what is your name?\n")
     name = input(">>> ")
     prompt_user = f"{name}>>> "
@@ -75,6 +83,7 @@ def greet():
     """
     Greet the participant with a random line
     """
+    global response_greet
     my_file = open(GREET_FILE)
     content = my_file.read()
     my_file.close()
@@ -84,24 +93,89 @@ def greet():
 
     print(f"{prompt_computer} {selected_greet_phrase} {name}. How are you?\n")
     response_greet = input(f"{prompt_user}")
+    
 
-    #check response for positive, negative or abusive language
-    for x in swear_lines:
-        if (x in response_greet):
-            print("come on ...")
+def check_tone():
+    """
+    Check the tone of the response
+    """
+    global response_greet
+
+    for swear_words in swear_lines:
+        if response_greet.find(swear_words) >= 0:
+            return True
         else:
-            print("okay good!!!")
+            return False
 
 
-
-def positive_greet():
+def choose_topic():
     """
     Response to positive greeting. ask about either work, studies or family
     """
     # Choose topic
-    topics = ["work", "life", "family"]
+    topics = ["work", "life", "family", "school"]
     selected_topic = topics[random.randrange(len(topics))]
     print(selected_topic)
+    
+    if selected_topic == "work":
+        # Call work function
+        work_chat()
+    elif selected_topic == "life":
+        # Call life topics
+        life_chat()
+    elif selected_topic == "family":
+        # Call family topics
+        family_chat()
+    else:
+        # Call school topics
+        school_chat()
+
+
+def work_chat():
+    """
+    Talk about work related activities
+    """
+    print(work_lines)
+    #random.randrange(len(greet_phrases))]
+
+    #print(f"{prompt_computer} {selected_greet_phrase} {name}. How are you?\n")
+    #response_greet = input(f"{prompt_user}")
+
+
+def life_chat():
+    print("life_lines")
+
+
+def family_chat():
+    print(family_lines)
+
+
+def school_chat():
+
+    school_chat_activated = True
+    
+    print(f"{prompt_computer} Are you a student?")
+    response = input(f"{prompt_user}")
+    yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap']
+    no_lines = ['no', 'nope', 'not', 'ain\'t']
+
+    for word in yes_lines:
+        if response.find(word) >= 0:
+            #proceed
+            print(f"{prompt_computer} What is the name of the institution?")
+            response = input(f"{prompt_user}")
+        
+    for word in no_lines:
+        if response.find(word) >= 0:
+            #proceed to next random topic
+            print("another topic")
+            response = input(f"{prompt_user}")    
+
+        
+
+
+    print(f"{prompt_computer} {school_lines[1]}")
+    response_greet = input(f"{prompt_user}")
 
 
 def negative_greet():
