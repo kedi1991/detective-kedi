@@ -1,33 +1,31 @@
-**<h1>Detective Kedi</h1>**
+**<h1>The bot</h1>**
 ![mockup for desktop home page](./assets/images/project_design/mockup.png)
 
-Detective Kedi is a smple application that can read information about you from you computer and come up with your profile
+The bot is a simple CLI program that can create a customized convresation with a person based on their responses. It has a limited topics to discuss because all discussions are created from local files.
 
-Visit our [website](https://kedi1991.github.io/project-flight-sim/) and play!!!!
+Visit our [website](https://the-bot.herokuapp.com/) and play!!!!
 <h2>1. Purpose of the project</h2>
 
-The purpose of this project is to profile a user by reading valuable information from their computer to give authorities heads-up information about a person.
+The purpose of this project is to demonstarte logic and decision making capability based on a simple pool of information. The program has been trained and tweaked to correct errors and make it more "human" and demonstrate how AI can be used to automate some common repetitive tasks and releave humans of some duties.
 
 <h2>2. User stories</h2>
 
 - The program is small and uses minimal resources
 - The program runs on all all browsers
-- The program has read only access to files on the PC
+- The program has uses a selection of questions in random order from a pool. 
+- The nature of conversation from one user should be different from the other
+- The user is allowed to freely write responses in their own way. The program should look out for specific patterns in user replies to make decisions
+- The program handles erroneous input gracefully
 
 
 <h2>3. Features</h2>
 
-- The program browses all files in the user's computer
--STEPS:
-- check the core folders in the PC - Desktop, Documents, Downloads
-- searc for specific file names (passport, CV, job applications,)
-- group the file names in a list (contacts/family; work-job, title; personal details - name,age,sex, location)
-
+- CLI interface deployed on web
+- Chat bot
 
 <h2>4. Future features</h2>
 
 - Incorporating AI libraries to improve data processing and accuracy of results
-- Add ability to read cloud data as well
 
 
 <h2>6. Wireframes</h2>
