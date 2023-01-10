@@ -4,7 +4,7 @@ import re
 name = ""
 prompt_user = ""
 response_greet = ""
-prompt_computer = "\nComputer >>> "
+prompt_computer = '\033[94m' + "\nK-Bot >>> " + '\033[0m'
 school_chat_completed = False
 
 GREET_FILE = "greetings.txt"
@@ -21,6 +21,10 @@ def main():
     """
     Main function controlling access to all the other functions
     """
+
+    
+    #print(CRED + "Error, does not compute!" + CEND)
+
     start()
     greet()
 
@@ -78,13 +82,12 @@ def start():
     negative_file.close()
     negative_lines = negative_content.split("\n")
 
-
     global name
     global prompt_user
 
-    print("Hi my name is Kedi. what is your name?")
+    print("Hi my name is K-BOT. what is your name?")
     name = input(">>> ")
-    prompt_user = f"{name} >>> "
+    prompt_user = '\033[92m' + f"{name} >>> " + '\033[0m'
 
 
 def greet():

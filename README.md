@@ -109,6 +109,7 @@ Finally, run `git push` to push the changes to yout github repository.
 http://www.learnex.in/useful-english-greetings-and-responses/
 https://oneminuteenglish.org/en/greetings-in-english/
 https://www.jumpspeak.com/blog/english-swear-words
+https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
 
 **Thanks to:**
 - CI personal mentor - Harry Dhillon for professional guidance
