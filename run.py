@@ -1,11 +1,14 @@
 import random
+import re
 
 name = ""
 prompt_user = ""
 response_greet = ""
-prompt_computer = "Kedi>>>"
+prompt_computer = "\nComputer >>> "
+school_chat_completed = False
 
 GREET_FILE = "greetings.txt"
+LIFE_FILE = "life_lines.txt"
 FAMILY_FILE = "family_lines.txt"
 WORK_FILE = "work_lines.txt"
 SCHOOL_FILE = "school_lines.txt"
@@ -32,7 +35,7 @@ def start():
     """
     Start the chat
     """
-    global greet_lines, family_lines, work_lines, school_lines, swear_lines, positive_lines, negative_lines
+    global greet_lines, family_lines, work_lines, school_lines, swear_lines, life_lines, negative_lines
 
     #load all files and contents
     greet_file = open(GREET_FILE)
@@ -49,6 +52,11 @@ def start():
     work_content = work_file.read()
     work_file.close()
     work_lines = work_content.split("\n")
+
+    life_file = open(LIFE_FILE)
+    life_content = life_file.read()
+    life_file.close()
+    life_lines = life_content.split("\n")
 
     school_file = open(SCHOOL_FILE)
     school_content = school_file.read()
@@ -74,9 +82,9 @@ def start():
     global name
     global prompt_user
 
-    print("Hi my name is Kedi. what is your name?\n")
+    print("Hi my name is Kedi. what is your name?")
     name = input(">>> ")
-    prompt_user = f"{name}>>> "
+    prompt_user = f"{name} >>> "
 
 
 def greet():
@@ -91,7 +99,7 @@ def greet():
     greet_phrases = content.split("\n")
     selected_greet_phrase = greet_phrases[random.randrange(len(greet_phrases))]
 
-    print(f"{prompt_computer} {selected_greet_phrase} {name}. How are you?\n")
+    print(f"{prompt_computer} {selected_greet_phrase} {name}. How are you?")
     response_greet = input(f"{prompt_user}")
     
 
@@ -114,69 +122,63 @@ def choose_topic():
     """
     # Choose topic
     topics = ["work", "life", "family", "school"]
-    selected_topic = topics[random.randrange(len(topics))]
-    print(selected_topic)
     
-    if selected_topic == "work":
-        # Call work function
-        work_chat()
-    elif selected_topic == "life":
-        # Call life topics
-        life_chat()
-    elif selected_topic == "family":
-        # Call family topics
-        family_chat()
-    else:
-        # Call school topics
-        school_chat()
+    topic = set(topics)
+    #topic_size = topics.__len__()
 
+    #x = 0
+    #while x < topic_size:
+    for choice in topic:
+        try:
+            if choice == "work":
+                # Call work function
+                chat("work", work_lines, "Are you currently employed?")
+            elif choice == "life":
+                # Call life topics
+                chat("life", life_lines, "In other news, how is life?")
+            elif choice == "family":
+                # Call family topics
+                chat("family", family_lines, "Are you married?")
+            else:
+                # Call school topics
+                chat("school", school_lines, "Are you a student?")
+            #x = x + 1
 
-def work_chat():
-    """
-    Talk about work related activities
-    """
-    print(work_lines)
-    #random.randrange(len(greet_phrases))]
-
-    #print(f"{prompt_computer} {selected_greet_phrase} {name}. How are you?\n")
-    #response_greet = input(f"{prompt_user}")
-
-
-def life_chat():
-    print("life_lines")
-
-
-def family_chat():
-    print(family_lines)
-
-
-def school_chat():
-
-    school_chat_activated = True
+        except Exception:
+            print("Error in selecting topics. Contact Administrator.")
     
-    print(f"{prompt_computer} Are you a student?")
+
+def chat(topic, lines, intro_qn):
+    """
+    Function to process all interactions related to work
+    """
+    
+    print(f"{prompt_computer} {intro_qn}")
     response = input(f"{prompt_user}")
-    yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap']
-    no_lines = ['no', 'nope', 'not', 'ain\'t']
+    yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good']
+    no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed']
+
+    for word in no_lines:
+        if re.search(word, response, re.IGNORECASE):
+            #proceed to next random topic
+            return 
 
     for word in yes_lines:
-        if response.find(word) >= 0:
-            #proceed
-            print(f"{prompt_computer} What is the name of the institution?")
-            response = input(f"{prompt_user}")
-        
-    for word in no_lines:
-        if response.find(word) >= 0:
-            #proceed to next random topic
-            print("another topic")
-            response = input(f"{prompt_user}")    
+        if re.search(word, response, re.IGNORECASE):
+            questions = set(lines)
+            qn_size = lines.__len__()
 
-        
+            x = 0
+            while x < qn_size:
+                try:
+                    print(f"{prompt_computer} {questions.pop()}")
+                    response = input(f"{prompt_user}")
+                    x = x + 1
 
+                except Exception:
+                    print("Error in program. Please check your input.")
 
-    print(f"{prompt_computer} {school_lines[1]}")
-    response_greet = input(f"{prompt_user}")
-
+    
 
 def negative_greet():
     """
