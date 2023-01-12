@@ -2,12 +2,15 @@ import random
 import re
 
 name = ""
+sex = ""
 prompt_user = ""
 response_greet = ""
 prompt_computer = '\033[94m' + "\nK-Bot >>> " + '\033[0m'
 school_chat_completed = False
+validator = True
 
 GREET_FILE = "greetings.txt"
+BYE_FILE = "greeting/bye.txt"
 LIFE_FILE = "life_lines.txt"
 FAMILY_FILE = "family_lines.txt"
 WORK_FILE = "work_lines.txt"
@@ -21,10 +24,6 @@ def main():
     """
     Main function controlling access to all the other functions
     """
-
-    
-    #print(CRED + "Error, does not compute!" + CEND)
-
     start()
     greet()
 
@@ -39,7 +38,7 @@ def start():
     """
     Start the chat
     """
-    global greet_lines, family_lines, work_lines, school_lines, swear_lines, life_lines, negative_lines
+    global greet_lines, bye_lines, family_lines, work_lines, school_lines, swear_lines, life_lines, negative_lines
 
     #load all files and contents
     greet_file = open(GREET_FILE)
@@ -51,6 +50,11 @@ def start():
     family_content = family_file.read()
     family_file.close()
     family_lines = family_content.split("\n")
+
+    bye_file = open(BYE_FILE)
+    bye_content = bye_file.read()
+    bye_file.close()
+    bye_lines = bye_content.split("\n")
 
     work_file = open(WORK_FILE)
     work_content = work_file.read()
@@ -82,12 +86,30 @@ def start():
     negative_file.close()
     negative_lines = negative_content.split("\n")
 
-    global name
+    global name, sex, salute
     global prompt_user
+
+    print('\033[33m' + "\n\n********************************************************************\n" + 
+        "This is a chat bot with limited AI capability. \nThe program does not limit your responses to specific words. \nPlease express your answers freely and keep you responses as brief as possible for better results\n" + "********************************************************************\n" + '\033[0m')
 
     print("Hi my name is K-BOT. what is your name?")
     name = input(">>> ")
-    prompt_user = '\033[92m' + f"{name} >>> " + '\033[0m'
+   
+    global validator
+    while (validator):
+        print("How should I address you? (1)Ms or (2)Mr?")
+        salute_chk = input(">>> ")
+        
+        if re.search("1", salute_chk) or re.search("ms", salute_chk, re.IGNORECASE):
+            salute = "Ms."
+            validator = False
+        elif re.search("2", salute_chk) or re.search("mr", salute_chk, re.IGNORECASE):
+            salute = "Mr."
+            validator = False
+        else:
+            print("Response not understood. Please re-phrase.")
+
+    prompt_user = '\033[32m' + f"{salute} {name} >>> " + '\033[0m'
 
 
 def greet():
@@ -95,14 +117,9 @@ def greet():
     Greet the participant with a random line
     """
     global response_greet
-    my_file = open(GREET_FILE)
-    content = my_file.read()
-    my_file.close()
-    
-    greet_phrases = content.split("\n")
-    selected_greet_phrase = greet_phrases[random.randrange(len(greet_phrases))]
+    selected_greet_phrase = greet_lines[random.randrange(len(greet_lines))]
 
-    print(f"{prompt_computer} {selected_greet_phrase} {name}. How are you?")
+    print(f"{prompt_computer} {selected_greet_phrase} {salute } {name}. How are you?")
     response_greet = input(f"{prompt_user}")
     
 
@@ -149,6 +166,9 @@ def choose_topic():
 
         except Exception:
             print("Error in selecting topics. Contact Administrator.")
+
+    selected_bye_phrase = bye_lines[random.randrange(len(bye_lines))]
+    print(f"\n\nIt was nice knowing you {salute} {name}\n {selected_bye_phrase}")
     
 
 def chat(topic, lines, intro_qn):
@@ -181,18 +201,5 @@ def chat(topic, lines, intro_qn):
                 except Exception:
                     print("Error in program. Please check your input.")
 
-    
 
-def negative_greet():
-    """
-    Response to negative greeting
-    """
-
-
-def neutral_greet():
-    """
-    Response to neutral greeting
-    """
-
-    
 main()
