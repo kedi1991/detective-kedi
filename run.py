@@ -9,15 +9,13 @@ prompt_computer = '\033[94m' + "\nK-Bot >>> " + '\033[0m'
 school_chat_completed = False
 validator = True
 
-GREET_FILE = "greetings.txt"
-BYE_FILE = "greeting/bye.txt"
-LIFE_FILE = "life_lines.txt"
-FAMILY_FILE = "family_lines.txt"
-WORK_FILE = "work_lines.txt"
-SCHOOL_FILE = "school_lines.txt"
-SWEAR_FILE = "swear.txt"
-POSITIVE_RESPONSE = "response_positive.txt"
-NEGATIVE_RESPONSE = "response_negative.txt"
+GREET_FILE = "./resources/question_pool/greeting/greetings.txt"
+BYE_FILE = "./resources/question_pool/greeting/bye.txt"
+LIFE_FILE = "./resources/question_pool/life/life_lines.txt"
+FAMILY_FILE = "./resources/question_pool/family/family_lines.txt"
+WORK_FILE = "./resources/question_pool/work/work_lines.txt"
+SCHOOL_FILE = "./resources/question_pool/school/school_lines.txt"
+SWEAR_FILE = "./resources/question_pool/life/swear.txt"
 
 
 def main():
@@ -38,7 +36,7 @@ def start():
     """
     Start the chat
     """
-    global greet_lines, bye_lines, family_lines, work_lines, school_lines, swear_lines, life_lines, negative_lines
+    global greet_lines, bye_lines, family_lines, work_lines, school_lines, swear_lines, life_lines
 
     #load all files and contents
     greet_file = open(GREET_FILE)
@@ -75,16 +73,6 @@ def start():
     swear_content = swear_file.read()
     swear_file.close()
     swear_lines = swear_content.split("\n")
-
-    positive_file = open(POSITIVE_RESPONSE)
-    positive_content = positive_file.read()
-    positive_file.close()
-    positive_lines = positive_content.split("\n")
-
-    negative_file = open(NEGATIVE_RESPONSE)
-    negative_content = negative_file.read()
-    negative_file.close()
-    negative_lines = negative_content.split("\n")
 
     global name, sex, salute
     global prompt_user
@@ -144,10 +132,7 @@ def choose_topic():
     topics = ["work", "life", "family", "school"]
     
     topic = set(topics)
-    #topic_size = topics.__len__()
-
-    #x = 0
-    #while x < topic_size:
+  
     for choice in topic:
         try:
             if choice == "work":
@@ -159,10 +144,9 @@ def choose_topic():
             elif choice == "family":
                 # Call family topics
                 chat("family", family_lines, "Are you married?")
-            else:
+            elif choice == "school":
                 # Call school topics
                 chat("school", school_lines, "Are you a student?")
-            #x = x + 1
 
         except Exception:
             print("Error in selecting topics. Contact Administrator.")
