@@ -1,12 +1,12 @@
 **<h1>The bot</h1>**
-![mockup for desktop home page](./assets/images/project_design/mockup.png)
+![mockup for different screen sizes](./resources/images/mockup.png)
 
-The bot is a simple CLI program that can create a customized convresation with a person based on their responses. It has a limited topics to discuss because all discussions are created from local files.
+The bot is a simple CLI program that can create a customized conversation with a person based on their responses. It has limited topics to discuss because all discussions are created from local files.
 
 Visit our [website](https://the-bot.herokuapp.com/) and play!!!!
 <h2>1. Purpose of the project</h2>
 
-The purpose of this project is to demonstarte logic and decision making capability based on a simple pool of information. The program has been trained and tweaked to correct errors and make it more "human" and demonstrate how AI can be used to automate some common repetitive tasks and releave humans of some duties.
+The purpose of this project is to demonstrate logic and decision making capability based on a simple pool of information. The program has been trained and tweaked to correct errors and make it more "human" and demonstrate how AI can be used to automate some common repetitive tasks and releave humans of some duties.
 
 <h2>2. User stories</h2>
 
@@ -28,30 +28,16 @@ The purpose of this project is to demonstarte logic and decision making capabili
 - Incorporating AI libraries to improve data processing and accuracy of results
 
 
-<h2>6. Wireframes</h2>
+<h2>6. Logic behind</h2>
 
-Wireframes were designed using Ms paint on windows 10 as shown below
+The tentative flow was designed using Ms paint on windows 10 as shown below. After multiple runs, the program was altered based on this initial plan to better adapt the resonses and make them more human-like
 
-**Desktop/ tablet/ mobile page**
+![the logic behing the k-bot application](./resources/images/flow_python.png)
 
-a) Home page
-
-![wireframe for desktop home page](./assets/images/project_design/wireframe_desktop_mobile.png)
-![wireframe for desktop home page](./assets/images/project_design/wireframe_desktop.png)
-
-b) failure/ pass message
-![wireframe for desktop home page](./assets/images/project_design/wireframe_desktop_mobile_message.png)
-
-
-**MOBILE PAGES**
-
-a) game play with controls
-
-![wireframe for mobile home page](./assets/images/project_design/wireframe_mobile.png)
 
 <h2>7. Technology</h2>
 
-- The site is built on HTML, CSS, JS, and Python.
+- The site is built using Python.
 
 <h2>8. Testing</h2>
 
@@ -59,7 +45,7 @@ All html elements where tested for intended functionality, all links where teste
 
 <h3>8.1 code validation</h3>
 
-The overall quality of the html, css, and JS code was checked using the [html validator](https://validator.w3.org/), [jigsaw](https://jigsaw.w3.org/css-validator/validator/), and [PiliApp](https://www.piliapp.com/javascript-validator/) online tools respectively.
+The overall quality of the code was checked using the [python validator](https://validator.w3.org/)
 
 <h3> 8.2 fixed bugs</h3>
 
