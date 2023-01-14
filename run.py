@@ -2,7 +2,6 @@ import random
 import re
 
 name = ""
-sex = ""
 prompt_user = ""
 response_greet = ""
 prompt_computer = '\033[94m' + "\nK-Bot >>> " + '\033[0m'
@@ -12,7 +11,8 @@ validator = True
 GREET_FILE = "./resources/question_pool/greeting/greetings.txt"
 BYE_FILE = "./resources/question_pool/greeting/bye.txt"
 LIFE_FILE = "./resources/question_pool/life/life_lines.txt"
-FAMILY_FILE = "./resources/question_pool/family/family_lines.txt"
+FAMILY_FILE_MR = "./resources/question_pool/family/family_lines_mr.txt"
+FAMILY_FILE_MS = "./resources/question_pool/family/family_lines_ms.txt"
 WORK_FILE = "./resources/question_pool/work/work_lines.txt"
 SCHOOL_FILE = "./resources/question_pool/school/school_lines.txt"
 SWEAR_FILE = "./resources/question_pool/life/swear.txt"
@@ -36,7 +36,7 @@ def start():
     """
     Start the chat
     """
-    global greet_lines, bye_lines, family_lines, work_lines, school_lines, swear_lines, life_lines
+    global greet_lines, bye_lines, family_lines_ms, family_lines_mr, work_lines, school_lines, swear_lines, life_lines
 
     #load all files and contents
     greet_file = open(GREET_FILE)
@@ -44,10 +44,15 @@ def start():
     greet_file.close()
     greet_lines = greet_content.split("\n")
 
-    family_file = open(FAMILY_FILE)
-    family_content = family_file.read()
-    family_file.close()
-    family_lines = family_content.split("\n")
+    family_file_mr = open(FAMILY_FILE_MR)
+    family_content_mr = family_file_mr.read()
+    family_file_mr.close()
+    family_lines_mr = family_content_mr.split("\n")
+
+    family_file_ms = open(FAMILY_FILE_MS)
+    family_content_ms = family_file_ms.read()
+    family_file_ms.close()
+    family_lines_ms = family_content_ms.split("\n")
 
     bye_file = open(BYE_FILE)
     bye_content = bye_file.read()
@@ -74,14 +79,14 @@ def start():
     swear_file.close()
     swear_lines = swear_content.split("\n")
 
-    global name, sex, salute
-    global prompt_user
+    global name, salute, prompt_user
 
     print('\033[33m' + "\n\n********************************************************************\n" + 
         "This is a chat bot with limited AI capability. \nThe program does not limit your responses to specific words. \nPlease express your answers freely and keep you responses as brief as possible for better results\n" + "********************************************************************\n" + '\033[0m')
 
-    print("Hi my name is K-BOT. what is your name?")
-    name = input(">>> ")
+    while name == "":
+        print("Hi my name is K-BOT. what is your name?")
+        name = input(">>> ")
    
     global validator
     while (validator):
@@ -143,7 +148,12 @@ def choose_topic():
                 chat("life", life_lines, "In other news, how is life?")
             elif choice == "family":
                 # Call family topics
-                chat("family", family_lines, "Are you married?")
+                if re.search(salute, "mr.", re.IGNORECASE):
+                    chat("family", family_lines_mr, "Are you married?")
+                else:
+                    print(salute)
+                    chat("family", family_lines_ms, "Are you married?")
+
             elif choice == "school":
                 # Call school topics
                 chat("school", school_lines, "Are you a student?")
@@ -152,7 +162,7 @@ def choose_topic():
             print("Error in selecting topics. Contact Administrator.")
 
     selected_bye_phrase = bye_lines[random.randrange(len(bye_lines))]
-    print(f"\n\nIt was nice knowing you {salute} {name}\n {selected_bye_phrase}")
+    print(f"\n\n{prompt_computer} It was nice knowing you {salute} {name}. {selected_bye_phrase}")
     
 
 def chat(topic, lines, intro_qn):
@@ -162,6 +172,10 @@ def chat(topic, lines, intro_qn):
     
     print(f"{prompt_computer} {intro_qn}")
     response = input(f"{prompt_user}")
+
+    if response == "":
+        print(f"{prompt_computer} Come on don't be quiet :(")
+
     yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good']
     no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed']
 
@@ -173,17 +187,52 @@ def chat(topic, lines, intro_qn):
     for word in yes_lines:
         if re.search(word, response, re.IGNORECASE):
             questions = set(lines)
-            qn_size = lines.__len__()
 
-            x = 0
-            while x < qn_size:
+            for qn in questions:
                 try:
-                    print(f"{prompt_computer} {questions.pop()}")
+                    print(f"{prompt_computer} {qn}")
                     response = input(f"{prompt_user}")
-                    x = x + 1
+                    if response == "":
+                        print(f"{prompt_computer} Come on don't be quiet :(")
+                    else:
+                        check_figures(qn)
 
                 except Exception:
                     print("Error in program. Please check your input.")
 
+
+def check_figures(text):
+    """
+    Checks for numbers in responses
+    """
+
+    if re.search(text, "children do you have", re.IGNORECASE):
+        result = re.findall(r'\d+', text)
+
+        if result.__len__() < 1:
+            print(f"{prompt_computer} Naaaaah, but let's move on :)")
+        else:
+            print(f"{prompt_computer} Amazing ...")
+    
+    if re.search(text, "long have you been married?", re.IGNORECASE):
+        result = re.findall(r'\d+', text)
+        if result.__len__() < 1:
+            print(f"{prompt_computer} I know you are single :), but let's move on :)")
+        else:
+            print(f"{prompt_computer} Nice :)")
+
+    if re.search(text, "did you graduate?", re.IGNORECASE):
+        result = re.findall(r'\d+', text)
+        if result.__len__() < 1:
+            print(f"{prompt_computer} You lied :), but let's move on :)")
+        else:
+            print(f"{prompt_computer} Read hard mehn!!!")
+
+    if re.search(text, "How long have you been working", re.IGNORECASE):
+        result = re.findall(r'\d+', text)
+        if result.__len__() < 1:
+            print(f"{prompt_computer} You have not worked much :), but let's move on :)")
+        else:
+            print(f"{prompt_computer} Good job!!!")
 
 main()

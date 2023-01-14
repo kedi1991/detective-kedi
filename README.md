@@ -28,32 +28,32 @@ The purpose of this project is to demonstrate logic and decision making capabili
 - Incorporating AI libraries to improve data processing and accuracy of results
 
 
-<h2>6. Logic behind</h2>
+<h2>5. Logic behind</h2>
 
 The tentative flow was designed using Ms paint on windows 10 as shown below. After multiple runs, the program was altered based on this initial plan to better adapt the resonses and make them more human-like
 
 ![the logic behing the k-bot application](./resources/images/flow_python.png)
 
 
-<h2>7. Technology</h2>
+<h2>6. Technology</h2>
 
 - The site is built using Python.
 
-<h2>8. Testing</h2>
+<h2>7. Testing</h2>
 
 All html elements where tested for intended functionality, all links where tested and the screen responsiveness was verified on mobile, tablet, and desktp screen resolutions.
 
-<h3>8.1 code validation</h3>
+<h3>7.1 code validation</h3>
 
 The overall quality of the code was checked using the [python validator](https://validator.w3.org/)
 
-<h3> 8.2 fixed bugs</h3>
+<h3> 7.2 fixed bugs</h3>
 
-No errors found on html and JS code
+No errors found using the python tester as shown below
 
-![html warnings on validator](./assets/images/tests/test_flight.png)
+![Python tester on extendesclass.com](./resources/images/python_validate.png)
 
-<h3>8.3 supported screens and browsers</h3>
+<h3>8 supported screens and browsers</h3>
  
 The site was tested on the browsers listed below
 
@@ -88,14 +88,18 @@ Finally, run `git push` to push the changes to yout github repository.
 4. At the top just below the **GitHub Pages** heading, you will be notified of successful deployment as shown in the image. This may take about 60 seconds to reflect. Incase It takes longer, try refreshing the page.
 
 <h2>10. Known bugs</h2>
-1. Control using the long press on the mobile device controls does not produce the desired effect as that on the keyboard on desktop. This makes the reaction time of the craft so slow.
+1. Because the user is allowed to use their own response from their intuition, the program may not detect some words for accurate responses based on the supplied data used for training.
 
 <h2>11. credits</h2>
 
 http://www.learnex.in/useful-english-greetings-and-responses/
+
 https://oneminuteenglish.org/en/greetings-in-english/
+
 https://www.jumpspeak.com/blog/english-swear-words
+
 https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+
 
 **Thanks to:**
 - CI personal mentor - Harry Dhillon for professional guidance
