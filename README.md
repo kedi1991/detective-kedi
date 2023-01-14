@@ -88,7 +88,10 @@ Finally, run `git push` to push the changes to yout github repository.
 4. At the top just below the **GitHub Pages** heading, you will be notified of successful deployment as shown in the image. This may take about 60 seconds to reflect. Incase It takes longer, try refreshing the page.
 
 <h2>10. Known bugs</h2>
+
 1. Because the user is allowed to use their own response from their intuition, the program may not detect some words for accurate responses based on the supplied data used for training.
+
+2. Some questions may be repeated by the program twice. Question order was made to be random
 
 <h2>11. credits</h2>
 

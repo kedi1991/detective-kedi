@@ -16,6 +16,7 @@ FAMILY_FILE_MS = "./resources/question_pool/family/family_lines_ms.txt"
 WORK_FILE = "./resources/question_pool/work/work_lines.txt"
 SCHOOL_FILE = "./resources/question_pool/school/school_lines.txt"
 SWEAR_FILE = "./resources/question_pool/life/swear.txt"
+GREET_FILE_RESPONSE = "./resources/question_pool/greeting/greet_positive.txt"
 
 
 def main():
@@ -25,24 +26,23 @@ def main():
     start()
     greet()
 
-    #check for the tone of response
-    if check_tone():
-        print("ok")
-    else:
-        choose_topic()
-     
 
 def start():
     """
     Start the chat
     """
-    global greet_lines, bye_lines, family_lines_ms, family_lines_mr, work_lines, school_lines, swear_lines, life_lines
+    global greet_lines, greet_lines_resp, bye_lines, family_lines_ms, family_lines_mr, work_lines, school_lines, swear_lines, life_lines
 
     #load all files and contents
     greet_file = open(GREET_FILE)
     greet_content = greet_file.read()
     greet_file.close()
     greet_lines = greet_content.split("\n")
+
+    greet_file_resp = open(GREET_FILE_RESPONSE)
+    greet_content_resp = greet_file_resp.read()
+    greet_file_resp.close()
+    greet_lines_resp = greet_content_resp.split("\n")
 
     family_file_mr = open(FAMILY_FILE_MR)
     family_content_mr = family_file_mr.read()
@@ -114,16 +114,20 @@ def greet():
 
     print(f"{prompt_computer} {selected_greet_phrase} {salute } {name}. How are you?")
     response_greet = input(f"{prompt_user}")
-    
 
-def check_tone():
+    if check_tone(response_greet):
+        print("Response not the best. Please calm down and return:)")
+    else:
+        choose_topic()
+
+    
+def check_tone(response):
     """
     Check the tone of the response
     """
-    global response_greet
 
-    for swear_words in swear_lines:
-        if response_greet.find(swear_words) >= 0:
+    for swear_word in swear_lines:
+        if re.search(swear_word, response, re.IGNORECASE):
             return True
         else:
             return False
@@ -151,7 +155,6 @@ def choose_topic():
                 if re.search(salute, "mr.", re.IGNORECASE):
                     chat("family", family_lines_mr, "Are you married?")
                 else:
-                    print(salute)
                     chat("family", family_lines_ms, "Are you married?")
 
             elif choice == "school":
@@ -173,63 +176,91 @@ def chat(topic, lines, intro_qn):
     print(f"{prompt_computer} {intro_qn}")
     response = input(f"{prompt_user}")
 
-    if response == "":
-        print(f"{prompt_computer} Come on don't be quiet :(")
+    if check_tone(response):
+        print("Response not the best. Please calm down and return:)")
+        exit()
+    else:
+        if response == "":
+            print(f"{prompt_computer} Come on don't be quiet :(")
 
-    yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good']
-    no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed']
+        yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good', 'I\'m', 'i am']
+        no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed', 'never', 'am not', 'i\'m not']
 
-    for word in no_lines:
-        if re.search(word, response, re.IGNORECASE):
-            #proceed to next random topic
-            return 
+        for word in no_lines:
+            if re.search(word, response, re.IGNORECASE):
+                #proceed to next random topic
+                return 
 
-    for word in yes_lines:
-        if re.search(word, response, re.IGNORECASE):
-            questions = set(lines)
+        for word in yes_lines:
+            if re.search(word, response, re.IGNORECASE):
+                questions = set(lines)
 
-            for qn in questions:
-                try:
-                    print(f"{prompt_computer} {qn}")
-                    response = input(f"{prompt_user}")
-                    if response == "":
-                        print(f"{prompt_computer} Come on don't be quiet :(")
-                    else:
-                        check_figures(qn)
+                for qn in questions:
+                    try:
+                        print(f"{prompt_computer} {qn}")
+                        response = input(f"{prompt_user}")
 
-                except Exception:
-                    print("Error in program. Please check your input.")
+                        if check_tone(response):
+                            print("Response not the best. Please calm down and return:)")
+                            exit()
+                        else:
+                            if response == "":
+                                print(f"{prompt_computer} Come on don't be quiet :(")
+                            else:
+                                check_figures(qn, response)
+
+                    except Exception:
+                        print("Error in program. Please check your input.")
 
 
-def check_figures(text):
+def check_figures(text, response):
     """
     Checks for numbers in responses
     """
 
-    if re.search(text, "children do you have", re.IGNORECASE):
-        result = re.findall(r'\d+', text)
+    if re.search("children do you have", text, re.IGNORECASE):
+        result = re.findall(r'\d+', response)
 
         if result.__len__() < 1:
             print(f"{prompt_computer} Naaaaah, but let's move on :)")
         else:
             print(f"{prompt_computer} Amazing ...")
-    
-    if re.search(text, "long have you been married?", re.IGNORECASE):
-        result = re.findall(r'\d+', text)
+
+    if re.search("And your girlfriend", text, re.IGNORECASE):
+
+        answers = set(greet_lines_resp)
+
+        for res_text in answers:
+                
+            if re.search(response, res_text, re.IGNORECASE):
+                print(f"{prompt_computer} Ma mehn...clap ,clap, clap :)")
+                break
+            else:
+                print(f"{prompt_computer} Don't lie .... I won't talk!")
+                break
+
+            
+    if re.search("long have you been married?", text, re.IGNORECASE):
+        result = re.findall(r'\d+', response)
         if result.__len__() < 1:
             print(f"{prompt_computer} I know you are single :), but let's move on :)")
         else:
             print(f"{prompt_computer} Nice :)")
 
-    if re.search(text, "did you graduate?", re.IGNORECASE):
-        result = re.findall(r'\d+', text)
+    if re.search("did you graduate?", text, re.IGNORECASE):
+        
+        result = re.findall(r'\d+', response)
+
+        print(text)
+        print(result)
+
         if result.__len__() < 1:
             print(f"{prompt_computer} You lied :), but let's move on :)")
         else:
             print(f"{prompt_computer} Read hard mehn!!!")
 
-    if re.search(text, "How long have you been working", re.IGNORECASE):
-        result = re.findall(r'\d+', text)
+    if re.search("How long have you been working", text, re.IGNORECASE):
+        result = re.findall(r'\d+', response)
         if result.__len__() < 1:
             print(f"{prompt_computer} You have not worked much :), but let's move on :)")
         else:
