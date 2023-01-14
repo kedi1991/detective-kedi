@@ -257,7 +257,7 @@ def check_figures(text, response):
         if result.__len__() < 1:
             print(f"{prompt_computer} You lied :), but let's move on :)")
         else:
-            print(f"{prompt_computer} Read hard mehn!!!")
+            print(f"{prompt_computer} Congz...Read hard mehn!!!")
 
     if re.search("How long have you been working", text, re.IGNORECASE):
         result = re.findall(r'\d+', response)

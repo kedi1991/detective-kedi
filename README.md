@@ -33,7 +33,7 @@ The purpose of this project is to demonstrate logic and decision making capabili
 The tentative flow was designed using Ms paint on windows 10 as shown below. After multiple runs, the program was altered based on this initial plan to better adapt the resonses and make them more human-like
 
 ![the logic behing the k-bot application](./resources/images/flow_python.png)
-
+![Running application on web browser](./resources/images/python_dryrun.png)
 
 <h2>6. Technology</h2>
 
