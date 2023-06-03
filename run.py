@@ -7,6 +7,8 @@ response_greet = ""
 prompt_computer = '\033[94m' + "\nK-Bot >>> " + '\033[0m'
 school_chat_completed = False
 validator = True
+empty_resp_count = 0
+counter = 0
 
 GREET_FILE = "./resources/question_pool/greeting/greetings.txt"
 BYE_FILE = "./resources/question_pool/greeting/bye.txt"
@@ -88,19 +90,25 @@ def start():
         print("Hi my name is K-BOT. what is your name?")
         name = input(">>> ")
    
-    global validator
+    global validator, empty_resp_count
     while (validator):
         print("How should I address you? (1)Ms or (2)Mr?")
         salute_chk = input(">>> ")
         
-        if re.search("1", salute_chk) or re.search("ms", salute_chk, re.IGNORECASE):
+        if (salute_chk == "1") or re.search("ms", salute_chk, re.IGNORECASE):
             salute = "Ms."
             validator = False
-        elif re.search("2", salute_chk) or re.search("mr", salute_chk, re.IGNORECASE):
+        elif (salute_chk == "2") or re.search("mr", salute_chk, re.IGNORECASE):
             salute = "Mr."
             validator = False
         else:
-            print("Response not understood. Please re-phrase.")
+            # Check if the string is empty or invalid
+            if not check_empty(salute_chk, empty_resp_count):
+                empty_resp_count += 1
+                # Needed for the error
+                print("")
+            else:
+                print("Response not allowed.")
 
     prompt_user = '\033[32m' + f"{salute} {name} >>> " + '\033[0m'
 
@@ -120,7 +128,25 @@ def greet():
     else:
         choose_topic()
 
-    
+
+def check_empty(respose, empty_resp_count):
+    """
+    Check for empty responses
+    """
+    if not (bool(respose) and respose.strip()):
+        if empty_resp_count == 1:
+            print("Your response cannot be empty")
+        elif empty_resp_count == 2:
+            print("Another blank response will terminate the program")
+        elif empty_resp_count == 3:
+            print("Sorry. The program has been terminated because of multiple empty responses. Goodbye!")
+            exit()
+        
+        return False
+    else:
+        return True
+
+
 def check_tone(response):
     """
     Check the tone of the response
@@ -180,8 +206,6 @@ def chat(topic, lines, intro_qn):
         print("Response not the best. Please calm down and return:)")
         exit()
     else:
-        if response == "":
-            print(f"{prompt_computer} Come on don't be quiet :(")
 
         yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good', 'I\'m', 'i am']
         no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed', 'never', 'am not', 'i\'m not']
@@ -265,5 +289,6 @@ def check_figures(text, response):
             print(f"{prompt_computer} You have not worked much :), but let's move on :)")
         else:
             print(f"{prompt_computer} Good job!!!")
+
 
 main()
