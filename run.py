@@ -124,6 +124,7 @@ def greet():
     # Check if the string is empty or invalid
     if not check_empty(response_greet, empty_resp_count):
         empty_resp_count += 1
+        choose_topic()
     else:
         if check_tone(response_greet):
             print("Response not the best. Please calm down and return:)")
