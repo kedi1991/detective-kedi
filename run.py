@@ -29,6 +29,7 @@ def main():
     greet()
 
 
+
 def start():
     """
     Start the chat
@@ -86,11 +87,12 @@ def start():
     print('\033[33m' + "\n\n********************************************************************\n" + 
         "This is a chat bot with limited AI capability. \nThe program does not limit your responses to specific words. \nPlease express your answers freely and keep you responses as brief as possible for better results\n" + "********************************************************************\n" + '\033[0m')
 
-    while name == "":
+    global validator, empty_resp_count, invalid_resp_count     
+    while not check_empty(name, empty_resp_count):
+        empty_resp_count += 1
         print("Hi my name is K-BOT. what is your name?")
         name = input(">>> ")
    
-    global validator, empty_resp_count
     while (validator):
         print("How should I address you? (1)Ms or (2)Mr?")
         salute_chk = input(">>> ")
@@ -138,16 +140,22 @@ def check_empty(respose, empty_resp_count):
     Check for empty responses and invalid characters
     """
     if not (bool(respose) and respose.strip()):
-        if empty_resp_count == 0:
+        if empty_resp_count == 1:
             print("Your response cannot be empty")
-        elif empty_resp_count == 1:
-            print("Another blank response will terminate the program")
         elif empty_resp_count == 2:
+            print("Another blank response will terminate the program")
+        elif empty_resp_count == 3:
             print("Sorry. The program has been terminated because of multiple empty responses. Goodbye!")
             exit()
         return False
     elif (re.compile('[@_!#$%^&*()<>?/\|}{~:]').search(respose) is not None):
-        print("Your response contains invalid characters")
+        if invalid_resp_count == 0:
+            print("Your response contains invalid characters")
+        elif invalid_resp_count == 1:
+            print("Another invalid response will terminate the program")
+        elif invalid_resp_count == 2:
+            print("Sorry. The program has been terminated because of multiple invalid responses. Goodbye!")
+            exit()
         return False
     else:
         return True
@@ -205,7 +213,7 @@ def chat(topic, lines, intro_qn):
     Function to process all interactions related to work
     """
     
-    global empty_resp_count
+    global empty_resp_count, invalid_resp_count
     print(f"{prompt_computer} {intro_qn}")
     response = input(f"{prompt_user}")
 
@@ -213,7 +221,7 @@ def chat(topic, lines, intro_qn):
     if not check_empty(response, empty_resp_count):
         empty_resp_count += 1
     else:
-        print("Your response is invalid.")
+        # print("Your response is invalid.")
 
         if check_tone(response):
             print("Response not the best. Please calm down and return:)")
