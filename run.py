@@ -135,26 +135,26 @@ def greet():
             choose_topic()
 
 
-def check_empty(respose, empty_resp_count):
+def check_empty(response, empty_resp_count):
     """
     Check for empty responses and invalid characters
     """
-    if not (bool(respose) and respose.strip()):
+    if not (bool(response) and response.strip()):
         if empty_resp_count == 1:
             print("Your response cannot be empty")
         elif empty_resp_count == 2:
-            print("Another blank response will terminate the program")
+            print("Another blank response will terminate the conversation")
         elif empty_resp_count == 3:
-            print("Sorry. The program has been terminated because of multiple empty responses. Goodbye!")
+            print("Sorry. The conversation has been terminated because of multiple empty responses. Goodbye!")
             exit()
         return False
-    elif (re.compile('[@_!#$%^&*()<>?/\|}{~:]').search(respose) is not None):
+    elif (re.compile('[@_!#$%^&*()<>?/\|"}{~:]').search(response) is not None):
         if invalid_resp_count == 0:
             print("Your response contains invalid characters")
         elif invalid_resp_count == 1:
-            print("Another invalid response will terminate the program")
+            print("Another invalid response will terminate the conversation")
         elif invalid_resp_count == 2:
-            print("Sorry. The program has been terminated because of multiple invalid responses. Goodbye!")
+            print("Sorry. The conversation has been terminated because of multiple invalid responses. Goodbye!")
             exit()
         return False
     else:
