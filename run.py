@@ -135,7 +135,7 @@ def greet():
 
 def check_empty(respose, empty_resp_count):
     """
-    Check for empty responses
+    Check for empty responses and invalid characters
     """
     if not (bool(respose) and respose.strip()):
         if empty_resp_count == 0:
@@ -145,7 +145,9 @@ def check_empty(respose, empty_resp_count):
         elif empty_resp_count == 2:
             print("Sorry. The program has been terminated because of multiple empty responses. Goodbye!")
             exit()
-        
+        return False
+    elif (re.compile('[@_!#$%^&*()<>?/\|}{~:]').search(respose) is not None):
+        print("Your response contains invalid characters")
         return False
     else:
         return True
@@ -211,7 +213,7 @@ def chat(topic, lines, intro_qn):
     if not check_empty(response, empty_resp_count):
         empty_resp_count += 1
     else:
-        print("Response not allowed.")
+        print("Your response is invalid.")
 
         if check_tone(response):
             print("Response not the best. Please calm down and return:)")
