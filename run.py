@@ -105,8 +105,6 @@ def start():
             # Check if the string is empty or invalid
             if not check_empty(salute_chk, empty_resp_count):
                 empty_resp_count += 1
-                # Needed for the error
-                print("")
             else:
                 print("Response not allowed.")
 
@@ -117,16 +115,21 @@ def greet():
     """
     Greet the participant with a random line
     """
-    global response_greet
+    global response_greet, empty_resp_count
     selected_greet_phrase = greet_lines[random.randrange(len(greet_lines))]
 
     print(f"{prompt_computer} {selected_greet_phrase} {salute } {name}. How are you?")
     response_greet = input(f"{prompt_user}")
 
-    if check_tone(response_greet):
-        print("Response not the best. Please calm down and return:)")
+    # Check if the string is empty or invalid
+    if not check_empty(response_greet, empty_resp_count):
+        empty_resp_count += 1
     else:
-        choose_topic()
+        if check_tone(response_greet):
+            print("Response not the best. Please calm down and return:)")
+            exit()
+        else:
+            choose_topic()
 
 
 def check_empty(respose, empty_resp_count):
@@ -134,11 +137,11 @@ def check_empty(respose, empty_resp_count):
     Check for empty responses
     """
     if not (bool(respose) and respose.strip()):
-        if empty_resp_count == 1:
+        if empty_resp_count == 0:
             print("Your response cannot be empty")
-        elif empty_resp_count == 2:
+        elif empty_resp_count == 1:
             print("Another blank response will terminate the program")
-        elif empty_resp_count == 3:
+        elif empty_resp_count == 2:
             print("Sorry. The program has been terminated because of multiple empty responses. Goodbye!")
             exit()
         
@@ -199,42 +202,46 @@ def chat(topic, lines, intro_qn):
     Function to process all interactions related to work
     """
     
+    global empty_resp_count
     print(f"{prompt_computer} {intro_qn}")
     response = input(f"{prompt_user}")
 
-    if check_tone(response):
-        print("Response not the best. Please calm down and return:)")
-        exit()
+    # Check for empty response
+    if not check_empty(response, empty_resp_count):
+        empty_resp_count += 1
     else:
+        print("Response not allowed.")
 
-        yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good', 'I\'m', 'i am']
-        no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed', 'never', 'am not', 'i\'m not']
+        if check_tone(response):
+            print("Response not the best. Please calm down and return:)")
+            exit()
+        else:
 
-        for word in no_lines:
-            if re.search(word, response, re.IGNORECASE):
-                #proceed to next random topic
-                return 
+            yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good', 'I\'m', 'i am']
+            no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed', 'never', 'am not', 'i\'m not']
 
-        for word in yes_lines:
-            if re.search(word, response, re.IGNORECASE):
-                questions = set(lines)
+            for word in no_lines:
+                if re.search(word, response, re.IGNORECASE):
+                    #proceed to next random topic
+                    return 
 
-                for qn in questions:
-                    try:
-                        print(f"{prompt_computer} {qn}")
-                        response = input(f"{prompt_user}")
+            for word in yes_lines:
+                if re.search(word, response, re.IGNORECASE):
+                    questions = set(lines)
 
-                        if check_tone(response):
-                            print("Response not the best. Please calm down and return:)")
-                            exit()
-                        else:
-                            if response == "":
-                                print(f"{prompt_computer} Come on don't be quiet :(")
+                    for qn in questions:
+                        try:
+                            print(f"{prompt_computer} {qn}")
+                            response = input(f"{prompt_user}")
+
+                            if check_tone(response):
+                                print("Response not the best. Please calm down and return:)")
+                                exit()
                             else:
                                 check_figures(qn, response)
 
-                    except Exception:
-                        print("Error in program. Please check your input.")
+                        except Exception:
+                            print("Error in program. Please check your input.")
 
 
 def check_figures(text, response):
@@ -263,7 +270,6 @@ def check_figures(text, response):
                 print(f"{prompt_computer} Don't lie .... I won't talk!")
                 break
 
-            
     if re.search("long have you been married?", text, re.IGNORECASE):
         result = re.findall(r'\d+', response)
         if result.__len__() < 1:
