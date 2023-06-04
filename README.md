@@ -49,9 +49,14 @@ The overall quality of the code was checked using the [python validator](https:/
 
 <h3> 7.2 fixed bugs</h3>
 
-No errors found using the python tester as shown below
+About 4 unique errors were found after using the python PEP8 tester as shown below.
 
-![Python tester on extendesclass.com](./resources/images/python_validate.png)
+![Python tester check result before fixes on https://pep8ci.herokuapp.com/](./resources/images/errors_before_fix_latest.jpg)
+
+Of all the errors, 3 were fixed using error descriptions in the PEP8 validator. One error (E501) is still visible because splitting the lines to a maximum length of 80 will produce unnecessary spacing in the prompts.
+
+![Python tester check result after fixes on extendesclass.com](./resources/images/errors_after_fix_latest.jpg)
+
 
 <h3>8 supported screens and browsers</h3>
  
