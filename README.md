@@ -45,7 +45,7 @@ All html elements where tested for intended functionality, all links where teste
 
 <h3>7.1 code validation</h3>
 
-The overall quality of the code was checked using the [python validator](https://validator.w3.org/)
+The overall quality of the code was checked using the [python validator](https://pep8ci.herokuapp.com/)
 
 <h3> 7.2 fixed bugs</h3>
 
@@ -55,7 +55,7 @@ About 4 unique errors were found after using the python PEP8 tester as shown bel
 
 Of all the errors, 3 were fixed using error descriptions in the PEP8 validator. One error (E501) is still visible because splitting the lines to a maximum length of 80 will produce unnecessary spacing in the prompts.
 
-![Python tester check result after fixes on extendesclass.com](./resources/images/errors_after_fix_latest.jpg)
+![Python tester check result after fixes on https://pep8ci.herokuapp.com/](./resources/images/errors_after_fix_latest.jpg)
 
 
 <h3>8 supported screens and browsers</h3>
