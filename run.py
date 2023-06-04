@@ -21,7 +21,7 @@ WORK_FILE = "./resources/question_pool/work/work_lines.txt"
 SCHOOL_FILE = "./resources/question_pool/school/school_lines.txt"
 SWEAR_FILE = "./resources/question_pool/life/swear.txt"
 GREET_FILE_RESPONSE = "./resources/question_pool/greeting/greet_positive.txt"
-INVALID_STRING = "[@ _ ! $ % ^ & * ( ' ) < > ? \ | } { ~ : ; ] / #"
+INVALID_STRING = "[@ _ ! $ % ^ & * ( ' ) < > ? | } { ~ : ; ] / # \\"
 
 
 def main():
@@ -89,7 +89,7 @@ def start():
 
     print('\033[33m' + "\n\n********************************************************************\n"
           + "This is a chat bot with limited AI capability. \nThe program does not limit your responses to specific words. \nPlease express your answers freely and keep you responses as brief as possible for better results\n"
-          + "********************************************************************\n" 
+          + "********************************************************************\n"
           + '\033[0m')
 
     global validator, empty_resp_count, invalid_resp_count
@@ -134,7 +134,7 @@ def greet():
     # Check if the string is empty or invalid
     if not check_invalid(response_greet, empty_resp_count, invalid_resp_count):
         empty_resp_count += 1
-        
+
         choose_topic()
     else:
         if check_tone(response_greet):
