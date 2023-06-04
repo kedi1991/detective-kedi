@@ -8,6 +8,7 @@ prompt_computer = '\033[94m' + "\nK-Bot >>> " + '\033[0m'
 school_chat_completed = False
 validator = True
 empty_resp_count = 0
+invalid_resp_count = 0
 counter = 0
 
 GREET_FILE = "./resources/question_pool/greeting/greetings.txt"
@@ -88,7 +89,8 @@ def start():
         "This is a chat bot with limited AI capability. \nThe program does not limit your responses to specific words. \nPlease express your answers freely and keep you responses as brief as possible for better results\n" + "********************************************************************\n" + '\033[0m')
 
     global validator, empty_resp_count, invalid_resp_count     
-    while not check_empty(name, empty_resp_count):
+    while not check_empty(name, empty_resp_count, invalid_resp_count):
+        invalid_resp_count += 1
         empty_resp_count += 1
         print("Hi my name is K-BOT. what is your name?")
         name = input(">>> ")
@@ -105,7 +107,7 @@ def start():
             validator = False
         else:
             # Check if the string is empty or invalid
-            if not check_empty(salute_chk, empty_resp_count):
+            if not check_empty(salute_chk, empty_resp_count, invalid_resp_count):
                 empty_resp_count += 1
             else:
                 print("Response not allowed.")
@@ -124,7 +126,7 @@ def greet():
     response_greet = input(f"{prompt_user}")
 
     # Check if the string is empty or invalid
-    if not check_empty(response_greet, empty_resp_count):
+    if not check_empty(response_greet, empty_resp_count, invalid_resp_count):
         empty_resp_count += 1
         choose_topic()
     else:
@@ -135,7 +137,7 @@ def greet():
             choose_topic()
 
 
-def check_empty(response, empty_resp_count):
+def check_empty(response, empty_resp_count, invalid_resp_count):
     """
     Check for empty responses and invalid characters
     """
@@ -148,12 +150,12 @@ def check_empty(response, empty_resp_count):
             print("Sorry. The conversation has been terminated because of multiple empty responses. Goodbye!")
             exit()
         return False
-    elif (re.compile('[@_!#$%^&*()<>?/\|"}{~:]').search(response) is not None):
-        if invalid_resp_count == 0:
+    elif not response.isalnum():
+        if invalid_resp_count == 1:
             print("Your response contains invalid characters")
-        elif invalid_resp_count == 1:
-            print("Another invalid response will terminate the conversation")
         elif invalid_resp_count == 2:
+            print("Another invalid response will terminate the conversation")
+        elif invalid_resp_count == 3:
             print("Sorry. The conversation has been terminated because of multiple invalid responses. Goodbye!")
             exit()
         return False
@@ -218,7 +220,7 @@ def chat(topic, lines, intro_qn):
     response = input(f"{prompt_user}")
 
     # Check for empty response
-    if not check_empty(response, empty_resp_count):
+    if not check_empty(response, empty_resp_count, invalid_resp_count):
         empty_resp_count += 1
     else:
         # print("Your response is invalid.")
