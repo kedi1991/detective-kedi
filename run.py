@@ -30,14 +30,14 @@ def main():
     greet()
 
 
-
 def start():
     """
     Start the chat
     """
-    global greet_lines, greet_lines_resp, bye_lines, family_lines_ms, family_lines_mr, work_lines, school_lines, swear_lines, life_lines
+    global greet_lines, greet_lines_resp, bye_lines, family_lines_ms, \
+        family_lines_mr, work_lines, school_lines, swear_lines, life_lines
 
-    #load all files and contents
+    # Load all files and contents
     greet_file = open(GREET_FILE)
     greet_content = greet_file.read()
     greet_file.close()
@@ -85,20 +85,25 @@ def start():
 
     global name, salute, prompt_user
 
-    print('\033[33m' + "\n\n********************************************************************\n" + 
-        "This is a chat bot with limited AI capability. \nThe program does not limit your responses to specific words. \nPlease express your answers freely and keep you responses as brief as possible for better results\n" + "********************************************************************\n" + '\033[0m')
+    print('\033[33m' + "\n\n**************************************************\
+        ******************\n" + "This is a chat bot with limited AI capability\
+            . \nThe program does not limit your responses to specific words. \
+                \nPlease express your answers freely and keep you responses as\
+                 brief as possible for better results\n" + "******************\
+                    **************************************************\n" +
+                       '\033[0m')
 
-    global validator, empty_resp_count, invalid_resp_count     
+    global validator, empty_resp_count, invalid_resp_count
     while not check_empty(name, empty_resp_count, invalid_resp_count):
         invalid_resp_count += 1
         empty_resp_count += 1
         print("Hi my name is K-BOT. what is your name?")
         name = input(">>> ")
-   
+
     while (validator):
         print("How should I address you? (1)Ms or (2)Mr?")
         salute_chk = input(">>> ")
-        
+
         if (salute_chk == "1") or re.search("ms", salute_chk, re.IGNORECASE):
             salute = "Ms."
             validator = False
@@ -107,8 +112,10 @@ def start():
             validator = False
         else:
             # Check if the string is empty or invalid
-            if not check_empty(salute_chk, empty_resp_count, invalid_resp_count):
+            if not check_empty(salute_chk, empty_resp_count,
+                               invalid_resp_count):
                 empty_resp_count += 1
+                invalid_resp_count += 1
             else:
                 print("Response not allowed.")
 
@@ -122,7 +129,8 @@ def greet():
     global response_greet, empty_resp_count
     selected_greet_phrase = greet_lines[random.randrange(len(greet_lines))]
 
-    print(f"{prompt_computer} {selected_greet_phrase} {salute } {name}. How are you?")
+    print(f"{prompt_computer} {selected_greet_phrase} {salute } {name}. \
+        How are you?")
     response_greet = input(f"{prompt_user}")
 
     # Check if the string is empty or invalid
@@ -147,7 +155,8 @@ def check_empty(response, empty_resp_count, invalid_resp_count):
         elif empty_resp_count == 2:
             print("Another blank response will terminate the conversation")
         elif empty_resp_count == 3:
-            print("Sorry. The conversation has been terminated because of multiple empty responses. Goodbye!")
+            print("Sorry. The conversation has been terminated because of \
+                multiple invalid/ blank responses. Goodbye!")
             exit()
         return False
     elif not response.isalnum():
@@ -156,7 +165,8 @@ def check_empty(response, empty_resp_count, invalid_resp_count):
         elif invalid_resp_count == 2:
             print("Another invalid response will terminate the conversation")
         elif invalid_resp_count == 3:
-            print("Sorry. The conversation has been terminated because of multiple invalid responses. Goodbye!")
+            print("Sorry. The conversation has been terminated because of \
+                multiple invalid/ blank responses. Goodbye!")
             exit()
         return False
     else:
@@ -181,9 +191,9 @@ def choose_topic():
     """
     # Choose topic
     topics = ["work", "life", "family", "school"]
-    
+
     topic = set(topics)
-  
+
     for choice in topic:
         try:
             if choice == "work":
@@ -207,14 +217,15 @@ def choose_topic():
             print("Error in selecting topics. Contact Administrator.")
 
     selected_bye_phrase = bye_lines[random.randrange(len(bye_lines))]
-    print(f"\n\n{prompt_computer} It was nice knowing you {salute} {name}. {selected_bye_phrase}")
-    
+    print(f"\n\n{prompt_computer} It was nice knowing you {salute} {name}. \
+        {selected_bye_phrase}")
+
 
 def chat(topic, lines, intro_qn):
     """
     Function to process all interactions related to work
     """
-    
+
     global empty_resp_count, invalid_resp_count
     print(f"{prompt_computer} {intro_qn}")
     response = input(f"{prompt_user}")
@@ -223,20 +234,20 @@ def chat(topic, lines, intro_qn):
     if not check_empty(response, empty_resp_count, invalid_resp_count):
         empty_resp_count += 1
     else:
-        # print("Your response is invalid.")
-
         if check_tone(response):
             print("Response not the best. Please calm down and return:)")
             exit()
         else:
 
-            yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good', 'I\'m', 'i am']
-            no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed', 'never', 'am not', 'i\'m not']
+            yes_lines = ['yes', 'yeah', 'y', 'ofcourse', 'yeap', 'good',
+                         'I\'m', 'i am']
+            no_lines = ['no', 'nope', 'not', 'ain\'t', 'unemployed', 'never',
+                        'am not', 'i\'m not']
 
             for word in no_lines:
                 if re.search(word, response, re.IGNORECASE):
-                    #proceed to next random topic
-                    return 
+                    # Proceed to next random topic
+                    return
 
             for word in yes_lines:
                 if re.search(word, response, re.IGNORECASE):
@@ -246,12 +257,16 @@ def chat(topic, lines, intro_qn):
                         try:
                             print(f"{prompt_computer} {qn}")
                             response = input(f"{prompt_user}")
-
-                            if check_tone(response):
-                                print("Response not the best. Please calm down and return:)")
-                                exit()
+                            if not check_empty(response, empty_resp_count,
+                                               invalid_resp_count):
+                                empty_resp_count += 1
                             else:
-                                check_figures(qn, response)
+                                if check_tone(response):
+                                    print("Response not the best. Please calm\
+                                         down and return:)")
+                                    exit()
+                                else:
+                                    check_figures(qn, response)
 
                         except Exception:
                             print("Error in program. Please check your input.")
@@ -275,7 +290,7 @@ def check_figures(text, response):
         answers = set(greet_lines_resp)
 
         for res_text in answers:
-                
+
             if re.search(response, res_text, re.IGNORECASE):
                 print(f"{prompt_computer} Ma mehn...clap ,clap, clap :)")
                 break
@@ -286,16 +301,14 @@ def check_figures(text, response):
     if re.search("long have you been married?", text, re.IGNORECASE):
         result = re.findall(r'\d+', response)
         if result.__len__() < 1:
-            print(f"{prompt_computer} I know you are single :), but let's move on :)")
+            print(f"{prompt_computer} I know you are single :), \
+            but let's move on :)")
         else:
             print(f"{prompt_computer} Nice :)")
 
     if re.search("did you graduate?", text, re.IGNORECASE):
-        
-        result = re.findall(r'\d+', response)
 
-        print(text)
-        print(result)
+        result = re.findall(r'\d+', response)
 
         if result.__len__() < 1:
             print(f"{prompt_computer} You lied :), but let's move on :)")
@@ -305,7 +318,8 @@ def check_figures(text, response):
     if re.search("How long have you been working", text, re.IGNORECASE):
         result = re.findall(r'\d+', response)
         if result.__len__() < 1:
-            print(f"{prompt_computer} You have not worked much :), but let's move on :)")
+            print(f"{prompt_computer} You have not worked much :), \
+                but let's move on :)")
         else:
             print(f"{prompt_computer} Good job!!!")
 
