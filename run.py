@@ -9,6 +9,7 @@ school_chat_completed = False
 validator = True
 empty_resp_count = 0
 invalid_resp_count = 0
+
 counter = 0
 
 GREET_FILE = "./resources/question_pool/greeting/greetings.txt"
@@ -20,6 +21,8 @@ WORK_FILE = "./resources/question_pool/work/work_lines.txt"
 SCHOOL_FILE = "./resources/question_pool/school/school_lines.txt"
 SWEAR_FILE = "./resources/question_pool/life/swear.txt"
 GREET_FILE_RESPONSE = "./resources/question_pool/greeting/greet_positive.txt"
+
+INVALID_STRING = "[@ _ ! $ % ^ & * ( ' ) < > ? \ | } { ~ : ; ] / #"
 
 
 def main():
@@ -145,10 +148,25 @@ def greet():
             choose_topic()
 
 
+def has_invalid_symbol(response):
+    """
+    Search for invalid characters in the response
+    """
+    invalid_chars = INVALID_STRING.split()
+
+    for invalid_char in invalid_chars:
+        if invalid_char in response:
+            return True
+    return False
+
+
 def check_empty(response, empty_resp_count, invalid_resp_count):
     """
     Check for empty responses and invalid characters
     """
+    # Remove spaces to avoid wrong validation of alphanumeric sequence
+    response = response.replace(" ", "")
+
     if not (bool(response) and response.strip()):
         if empty_resp_count == 1:
             print("Your response cannot be empty")
@@ -159,11 +177,11 @@ def check_empty(response, empty_resp_count, invalid_resp_count):
                 multiple invalid/ blank responses. Goodbye!")
             exit()
         return False
-    elif not response.isalnum():
+    elif has_invalid_symbol(response):
         if invalid_resp_count == 1:
             print("Your response contains invalid characters")
         elif invalid_resp_count == 2:
-            print("Another invalid response will terminate the conversation")
+            print("Another invalid/ blank response will terminate the conversation")
         elif invalid_resp_count == 3:
             print("Sorry. The conversation has been terminated because of \
                 multiple invalid/ blank responses. Goodbye!")
