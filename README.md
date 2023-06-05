@@ -10,18 +10,15 @@ The purpose of this project is to demonstrate logic and decision making capabili
 
 <h2>2. User stories</h2>
 
-- The program is small and uses minimal resources
-- The program runs on all all browsers
-- The program has uses a selection of questions in random order from a pool. 
-- The nature of conversation from one user should be different from the other
-- The user is allowed to freely write responses in their own way. The program should look out for specific patterns in user replies to make decisions
-- The program handles erroneous input gracefully
+- As a user I am able to use my keyboard to make responses so that the bot makes a decision
+- As a user I am able to freely express myself so that the conversation appears more natural
+- The a suser I am able to have a different conversation each time I use the program
 
 
 <h2>3. Features</h2>
 
-- CLI interface deployed on web
-- Chat bot
+- The bot is a CLI interface deployed on web
+- Random question order
 
 <h2>4. Future features</h2>
 
@@ -32,22 +29,34 @@ The purpose of this project is to demonstrate logic and decision making capabili
 
 The tentative flow was designed using Ms paint on windows 10 as shown below. After multiple runs, the program was altered based on this initial plan to better adapt the resonses and make them more human-like
 
+The bot works by reading specific words from the the user's response. Incase the response has a positive tone (yes, ofcourse, good, fine ...), this makes the board keep asking more questions related the same topic. Most questions are read from text files that have pre-loaded questions. In order to widen the scope of questions, add more questions in anew line to the text files.
+
+In cases where the response has inappropriate language, the chat conversation is terminated immediately. 
+
+When the user does not respond (empty response or blanks) or the user feeds in random symbols, he/ she is warned 2 times and incase it continues, the conversation is terminated.
+
 ![the logic behing the k-bot application](./resources/images/flow_python.png)
 ![Running application on web browser](./resources/images/python_dryrun.png)
 
 <h2>6. Technology</h2>
 
-- The site is built using Python.
+- The site is built using Python and hosted on Heroku.
+- Javascript
+- HTML and CSS
+
+**Libraries used**
+
+- [random](https://docs.python.org/3/library/random.html) library used to make the selection of questions unpredictable.
+- [re](https://docs.python.org/3/library/re.html) librarry to help in regular expressions and pattern matching.
+
 
 <h2>7. Testing</h2>
 
-All html elements where tested for intended functionality, all links where tested and the screen responsiveness was verified on mobile, tablet, and desktp screen resolutions.
+All html elements where tested for intended functionality, all links where tested and the screen responsiveness was verified on mobile, tablet, and desktOp screen resolutions.
 
 <h3>7.1 code validation</h3>
 
 The overall quality of the code was checked using the [python validator](https://pep8ci.herokuapp.com/)
-
-<h3> 7.2 fixed bugs</h3>
 
 About 4 unique errors were found after using the python PEP8 tester as shown below.
 
@@ -57,6 +66,14 @@ Of all the errors, 3 were fixed using error descriptions in the PEP8 validator. 
 
 ![Python tester check result after fixes on https://pep8ci.herokuapp.com/](./resources/images/errors_after_fix_latest.jpg)
 
+
+<h3> 7.2 Manual testing</h3>
+
+The bot was tested with invalid input like random symbols and empty responses. 
+
+![Manual testing blanks](./resources/images/testing_blanks.jpg)
+
+![Manual testing invalids](./resources/images/testing_invalids.jpg)
 
 <h3>8 supported screens and browsers</h3>
  
@@ -96,7 +113,17 @@ Finally, run `git push` to push the changes to yout github repository.
 
 1. Because the user is allowed to use their own response from their intuition, the program may not detect some words for accurate responses based on the supplied data used for training.
 
-2. Some questions may be repeated by the program twice. Question order was made to be random
+2. Some questions may be repeated by the program twice.
+
+![Manual testing repetition](./resources/images/testing_unexpected_repeat.jpg)
+
+3. The program cannot detect random meaningless text fed into the chat. It is designed to reject symbols but some genuine conversations may contain such symbols.
+
+![Manual unexpected invalid](./resources/images/testing_unexpected_invalid.jpg)
+
+4. At some deeper levels of the conversation, the check for invalid input characters may fail, and the program will keep holding the conversation.
+
+![Manual unexpected blanks](./resources/images/testing_unexpected_stop.jpg)
 
 <h2>11. credits</h2>
 
